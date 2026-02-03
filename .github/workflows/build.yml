@@ -1,0 +1,71 @@
+name: Build
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install deps
+      run: |
+        pip install -r requirements.txt
+
+    - name: Build Windows
+      run: |
+        python -m nuitka --standalone --onefile `
+          --enable-plugin=pyside6 `
+          --include-package=requests `
+          --include-package=psutil `
+          --include-package=pystray `
+          --include-package=PIL `
+          --include-data-file=ach.wav=ach.wav `
+          --include-data-file=logo_new.png=logo_new.png `
+          l.py
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: lrogram-windows
+        path: l.exe
+
+
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install deps
+      run: |
+        pip install -r requirements.txt
+
+    - name: Build Linux
+      run: |
+        python -m nuitka --standalone --onefile \
+          --enable-plugin=pyside6 \
+          --include-package=requests \
+          --include-package=psutil \
+          --include-package=pystray \
+          --include-package=PIL \
+          --include-data-file=ach.wav=ach.wav \
+          --include-data-file=logo_new.png=logo_new.png \
+          l.py
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: lrogram-linux
+        path: l.bin
