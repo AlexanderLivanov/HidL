@@ -30,12 +30,12 @@ jobs:
           --include-package=PIL `
           --include-data-file=ach.wav=ach.wav `
           --include-data-file=logo_new.png=logo_new.png `
-          l.py
+          main.py
 
     - uses: actions/upload-artifact@v4
       with:
-        name: lrogram-windows
-        path: l.exe
+        name: hidl-windows
+        path: main.exe
 
 
   build-linux:
@@ -63,9 +63,9 @@ jobs:
           --include-package=PIL \
           --include-data-file=ach.wav=ach.wav \
           --include-data-file=logo_new.png=logo_new.png \
-          l.py
+          main.py
 
     - uses: actions/upload-artifact@v4
       with:
-        name: lrogram-linux
-        path: l.bin
+        name: hidl-linux
+        path: main.bin
